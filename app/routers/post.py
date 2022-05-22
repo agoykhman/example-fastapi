@@ -1,4 +1,3 @@
-from tkinter import TRUE
 from fastapi import Body, FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy import func 
 from sqlalchemy.orm import Session
