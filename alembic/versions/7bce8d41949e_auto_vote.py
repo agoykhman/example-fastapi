@@ -40,6 +40,7 @@ def downgrade():
     op.drop_column('users', 'created')
     op.add_column('posts', sa.Column('created_at', postgresql.TIMESTAMP(timezone=True), server_default=sa.text('now()'), autoincrement=False, nullable=False))
     op.drop_column('posts', 'created')
+    
     op.create_table('products',
     sa.Column('name', sa.VARCHAR(), autoincrement=False, nullable=False),
     sa.Column('price', sa.INTEGER(), autoincrement=False, nullable=False),
@@ -49,5 +50,7 @@ def downgrade():
     sa.Column('created_at', postgresql.TIMESTAMP(timezone=True), server_default=sa.text('now()'), autoincrement=False, nullable=False),
     sa.PrimaryKeyConstraint('id', name='products_pkey')
     )
+    
     op.drop_table('votes')
+    
     # ### end Alembic commands ###

@@ -12,11 +12,6 @@ class TokenData(BaseModel):
   id: Optional[str] = None
 
 
-#--structure of data required to create a new user id
-class UserCreate(BaseModel):
-  email: EmailStr
-  password: str
-
 #--structure of Create User POST all
 class UserOut(BaseModel):
   id: int
@@ -25,6 +20,11 @@ class UserOut(BaseModel):
 
   class Config:
     orm_mode = True
+
+#--structure of data required to create a new user id
+class UserCreate(BaseModel):
+  email: EmailStr
+  password: str
 
 class UserLogin(BaseModel):
   email: EmailStr
@@ -62,16 +62,6 @@ class PostOut(BaseModel):
 
   class Config:
     orm_mode = True
-"""
-  id: int
-  created: datetime
-  user_id: int
-  published: bool
-  title: str 
-  content: str 
-  class Config:
-    orm_mode = True
-"""
 
 class Vote(BaseModel):
   post_id: int 
