@@ -38,7 +38,7 @@ def get_posts(db: Session = Depends(get_db), current_user: int = Depends(oauth2.
   return posts  # returns json in browser
 
 
-##-CREATE NEW POST----------------------------------------------------
+##!-CREATE NEW POST----------------------------------------------------
   ##--users need to be logged in to create a post
 
   ##-- oauth2.get_current_user dependency forces user to be logged in. returns nothing (no error) or credentials exception error (token not validated).
@@ -52,6 +52,7 @@ def create_posts(post: schemas.PostCreate,
   #--accept 2 parameters, post object (post) and a persistent session (db)
   #--create new post, add it to the database, commit the change,
   # unpacks to  title = post.title, content = post.content, published = post.published
+  print(current_user)
   new_post = models.Post(user_id = current_user.id, **post.dict())
   db.add(new_post)
   db.commit()
@@ -59,7 +60,7 @@ def create_posts(post: schemas.PostCreate,
   return new_post
 
 
-##-GET POST BY ID--------------------------------------------------------
+#!#-GET POST BY ID--------------------------------------------------------
 @router.get("/{id}", response_model=schemas.PostOut)
 def get_post(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
 
@@ -75,7 +76,7 @@ def get_post(id: int, db: Session = Depends(get_db), current_user: int = Depends
   return post
 
 
-##-DELETE POST---------------------------------------------------------
+#!#-DELETE POST---------------------------------------------------------
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
 
@@ -95,7 +96,7 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user: int = Depe
   return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-##-PUT UPDATE TO POST---------------------------------------------------
+#!#-PUT UPDATE TO POST---------------------------------------------------
 @router.put("/{id}", status_code=status.HTTP_202_ACCEPTED, response_model=schemas.Post)
 def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
 

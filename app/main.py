@@ -28,7 +28,7 @@ app.add_middleware(
 ##-ROOT DIRECTORY---------------------------------------------------
 @app.get("/")  # http://127.0.0.1:8000/
 def root():
-  return {"message": "Hello World!!!"}  # returns json in browner
+  return {"message": "Hello World. Is there anyone out there?"}  # returns json in browner
 
 #--bring in the routes defined in post.py to CRUD post objects
 app.include_router(post.router)

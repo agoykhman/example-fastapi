@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from .. import models, schemas, utils 
 from .. database import get_db
 
+
 #--used to reference the user.py path operations in main.py
-#--@app decorator in main.py is replaced with @router decorator here
+#!--@app decorator in main.py is replaced with @router decorator here
 router = APIRouter(
     prefix='/users',  # -replace specifying the user dir in each request
     tags=['Users']  # -grouping users.py routes in the /docs url
@@ -20,7 +21,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
   user.password = hashed_password
 
   new_user = models.User(**user.dict())
-
+  print(new_user)
   db.add(new_user)
   db.commit()
   db.refresh(new_user)
