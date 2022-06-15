@@ -4,15 +4,17 @@ on: [push, pull_request]
 
 jobs:
   job1:
+    environment: 
+      name: testing 
     env:
-      DATABASE_HOSTNAME: localhost
-      DATABASE_PORT: 5432
-      DATABASE_PASSWORD: 302kenyon
-      DATABASE_NAME: fastapi
-      DATABASE_USER_NAME: postgres
-      SECRET_KEY: cbfbc01dbce847206013de2fab781cf68b38a0c39a8d090f57eceb608993b6f8
-      ALGORITHM: HS256
-      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      DATABASE_HOSTNAME: ${{ DATABASE_HOSTNAME }}
+      DATABASE_PORT: ${{ DATABASE_PORT }}
+      DATABASE_PASSWORD: ${{ DATABASE_PASSWORD }}
+      DATABASE_NAME: ${{ DATABASE_NAME }}
+      DATABASE_USER_NAME: ${{ DATABASE_USER_NAME }}
+      SECRET_KEY: ${{ SECRET_KEY }}
+      ALGORITHM: ${{ ALGORITHM }}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{ ACCESS_TOKEN_EXPIRE_MINUTES }}
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
