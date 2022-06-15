@@ -1,6 +1,3 @@
-from typing import List
-
-from sqlalchemy import true 
 from app import schemas
 import pytest 
 
