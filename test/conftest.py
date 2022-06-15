@@ -1,18 +1,16 @@
-from app.main import app
-import pytest
 from fastapi.testclient import TestClient
-
-from app.config import settings
-from app.oauth2 import create_access_token
-from app.database import Base, get_db
-from app import models 
+import pytest
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-# get_db() ONLY for reference for the override
-from app.database import get_db, Base
+from app import models
+from app.main import app
+from app.config import settings
+from app.database import get_db
+from app.database import Base
+from app.oauth2 import create_access_token
 
 #--TEST CONNECTION STRING
 SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_user_name}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test'
@@ -31,7 +29,7 @@ TestingSessionLocal = sessionmaker(
   #--- but then the tests are correlated. user_login_test is dependent on creater_user_test
   #---- all tests need to be indepdenent of one another. scope remains default/function
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def session():
   Base.metadata.drop_all(bind=engine)
   Base.metadata.create_all(bind=engine)
@@ -44,7 +42,7 @@ def session():
 #!-CLIENT fixture
   # dependent on session fixture.
   # session all runs first. client is passed into all test funcs
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def client(session):
   def override_get_db():
     try:
@@ -65,11 +63,11 @@ def test_user(client):
   user_data = {"email": "hello123@gmail.com",  "password": "hello123"}
   res = client.post("/users/", json=user_data)
 
+
+  assert res.status_code == 201
   new_user = res.json()
   # creater_user only returns email and id. password needs to be added manually
   new_user['password'] = user_data['password']
-
-  assert res.status_code == 201
   return new_user
 
 
@@ -79,11 +77,11 @@ def test_user2(client):
   user_data = {"email": "hello456@gmail.com",  "password": "hello456"}
   res = client.post("/users/", json=user_data)
 
+  assert res.status_code == 201
   new_user = res.json()
   # creater_user only returns email and id. password needs to be added manually
   new_user['password'] = user_data['password']
 
-  assert res.status_code == 201
   return new_user
 
 
