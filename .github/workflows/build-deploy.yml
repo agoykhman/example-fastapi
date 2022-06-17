@@ -67,7 +67,7 @@ jobs:
           host: ${{secrets.PROD_HOST}}
           username: ${{secrets.PROD_USER_NAME}}
           password: ${{secrets.PROD_PASSWORD}}
-          scripts: |
+          script: |
             cd app/src
             git pull
             echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart api 
